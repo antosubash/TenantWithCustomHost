@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
+using Volo.Abp.TenantManagement;
 using Volo.Abp.Threading;
 
 namespace CustomHost.EntityFrameworkCore
@@ -39,6 +41,8 @@ namespace CustomHost.EntityFrameworkCore
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Extending-Entities
                  */
+                ObjectExtensionManager.Instance
+                    .MapEfCoreProperty<Tenant, string>(Constant.Host);
             });
         }
     }

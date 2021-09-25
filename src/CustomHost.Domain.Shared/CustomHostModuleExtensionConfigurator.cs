@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Volo.Abp.Identity;
-using Volo.Abp.ObjectExtending;
+﻿using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
 
 namespace CustomHost
@@ -67,6 +65,15 @@ namespace CustomHost
              * See the documentation for more:
              * https://docs.abp.io/en/abp/latest/Module-Entity-Extensions
              */
+
+            ObjectExtensionManager.Instance.Modules()
+                .ConfigureTenantManagement(tenantConfig =>
+                {
+                    tenantConfig.ConfigureTenant(tenant =>
+                    {
+                        tenant.AddOrUpdateProperty<string>(Constant.Host);
+                    });
+                });
         }
     }
 }

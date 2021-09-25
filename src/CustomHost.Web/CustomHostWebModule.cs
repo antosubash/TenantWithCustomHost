@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using CustomHost.EntityFrameworkCore;
 using CustomHost.Localization;
 using CustomHost.MultiTenancy;
+using CustomHost.MultiTenant;
 using CustomHost.Web.Menus;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
@@ -29,6 +30,7 @@ using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity.Web;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement.Web;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Swashbuckle;
@@ -37,6 +39,7 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using System.Collections.Generic;
 
 namespace CustomHost.Web
 {
@@ -85,6 +88,12 @@ namespace CustomHost.Web
             ConfigureNavigationServices();
             ConfigureAutoApiControllers();
             ConfigureSwaggerServices(context.Services);
+
+            Configure<AbpTenantResolveOptions>(options =>
+            {
+                options.TenantResolvers.Clear();
+                options.TenantResolvers.Add(new HostTenantResolveContributor());
+            });
         }
 
         private void ConfigureUrls(IConfiguration configuration)
